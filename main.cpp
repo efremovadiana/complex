@@ -52,6 +52,30 @@ int main()
     std::cout << "\n+a = " << (+a) << std::endl;
     std::cout << "-a = " << (-a) << std::endl;
 
+    // Тест: оператор -= для double
+    std::cout << "\nТест: complex -= double " << std::endl;
+
+    complex auto_test1(10.0, 5.0);
+    auto_test1 -= 3.0;
+
+    if (auto_test1.getRe() == 7.0 && auto_test1.getIm() == 5.0) {
+        std::cout << "Успех: (10+5i) -= 3.0  (7+5i)" << std::endl;
+    } else {
+        std::cerr << "Ошибка: Ожидали (7, 5), получили ("
+                  << auto_test1.getRe() << ", " << auto_test1.getIm() << ")" << std::endl;
+        return 1;
+    }
+
+    complex auto_test2(4.0, -2.0);
+    auto_test2 -= (-1.0);
+
+    if (auto_test2.getRe() == 5.0 && auto_test2.getIm() == -2.0) {
+        std::cout << "Успех: (4-2i) -= (-1.0) (5-2i)" << std::endl;
+    } else {
+        std::cerr << "Ошибка: Ожидали (5, -2), получили ("
+                  << auto_test2.getRe() << ", " << auto_test2.getIm() << ")" << std::endl;
+        return 1;
+    }
 
     return 0;
 }
