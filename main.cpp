@@ -109,7 +109,7 @@ int main()
     }
 
     // Тест -= с double
-    std::cout << "\nТест operator -= double:" << std::endl;
+    std::cout << "\nТест оператор с double:" << std::endl;
     complex test1(10.0, 5.0);
     test1 -= 3.0;
     if (test1.getRe() == 7.0 && test1.getIm() == 5.0) {
