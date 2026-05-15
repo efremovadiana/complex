@@ -1,5 +1,7 @@
+#define _USE_MATH_DEFINES
 #include <iostream>
 #include "complex.h"
+#include <cmath>
 #include "clocale"
 
 int main()
@@ -163,6 +165,112 @@ int main()
         passed++;
     } else {
         std::cout << "-(5-3i) - Неверно" << std::endl;
+        failed++;
+    }
+
+    // Тест полярного конструктора
+    std::cout << "\n Тест полярного конструктора" << std::endl;
+
+    complex polar1(5.0, 0.0, true);
+    if (std::abs(polar1.getRe() - 5.0) < 1e-9 && std::abs(polar1.getIm() - 0.0) < 1e-9) {
+        std::cout << "Полярный (5, 0) = (5, 0) - Верно" << std::endl;
+        passed++;
+    } else {
+        std::cout << "Полярный (5, 0) = (5, 0) - Неверно" << std::endl;
+        failed++;
+    }
+
+    complex polar2(1.0, M_PI / 2, true);
+    if (std::abs(polar2.getRe() - 0.0) < 1e-9 && std::abs(polar2.getIm() - 1.0) < 1e-9) {
+        std::cout << "Полярный (1, pi/2) = (0, 1) - Верно" << std::endl;
+        passed++;
+    } else {
+        std::cout << "Полярный (1, pi/2) - Неверно" << std::endl;
+        failed++;
+    }
+
+    // Тест метода arg()
+    std::cout << "\n Тест arg() " << std::endl;
+
+    complex arg1(1.0, 0.0);
+    double a1 = arg1.arg();
+    if (std::abs(a1 - 0.0) < 1e-9) {
+        std::cout << "arg(1+0i) = 0 - Верно" << std::endl;
+        passed++;
+    } else {
+        std::cout << "arg(1+0i) = " << a1 << " - Неверно" << std::endl;
+        failed++;
+    }
+
+    complex arg2(0.0, 1.0);
+    double a2 = arg2.arg();
+    if (std::abs(a2 - M_PI / 2) < 1e-9) {
+        std::cout << "arg(0+1i) = pi/2 - Верно" << std::endl;
+        passed++;
+    } else {
+        std::cout << "arg(0+1i) = " << a2 << " - Неверно" << std::endl;
+        failed++;
+    }
+
+    // Тест операторов с double слева
+    std::cout << "\n Тест double + complex " << std::endl;
+
+    complex left_test1 = 2.0 + complex(3.0, 4.0);
+    if (left_test1.getRe() == 5.0 && left_test1.getIm() == 4.0) {
+        std::cout << "2 + (3+4i) = 5+4i - Верно" << std::endl;
+        passed++;
+    } else {
+        std::cout << "2 + (3+4i) - Неверно" << std::endl;
+        failed++;
+    }
+
+    complex left_test2 = 2.0 * complex(3.0, 4.0);
+    if (left_test2.getRe() == 6.0 && left_test2.getIm() == 8.0) {
+        std::cout << "2 * (3+4i) = 6+8i - Верно" << std::endl;
+        passed++;
+    } else {
+        std::cout << "2 * (3+4i) - Неверно" << std::endl;
+        failed++;
+    }
+
+    // Тест деления complex / complex
+    std::cout << "\n Тест complex / complex " << std::endl;
+
+    complex div_test1(1.0, 0.0);
+    complex div_test2(0.0, 1.0);
+    complex div_result = div_test1 / div_test2;
+    if (std::abs(div_result.getRe() - 0.0) < 1e-9 && std::abs(div_result.getIm() - (-1.0)) < 1e-9) {
+        std::cout << "1 / i = -i - Верно" << std::endl;
+        passed++;
+    } else {
+        std::cout << "1 / i = (" << div_result.getRe() << ", " << div_result.getIm() << ") - Неверно" << std::endl;
+        failed++;
+    }
+
+    // Тест complex / double (проверка исправления ошибки)
+    std::cout << "\n Тест complex / double (проверка исправления) " << std::endl;
+    complex div_fix_test(6.0, 8.0);
+    complex div_fix_result = div_fix_test / 2.0;
+    if (div_fix_result.getRe() == 3.0 && div_fix_result.getIm() == 4.0) {
+        std::cout << "(6+8i)/2 = 3+4i - Верно (ошибка исправлена)" << std::endl;
+        passed++;
+    } else {
+        std::cout << "(6+8i)/2 = (" << div_fix_result.getRe() << ", "
+                  << div_fix_result.getIm() << ") - Ошибка осталась! Неверно" << std::endl;
+        failed++;
+    }
+
+    // Тест цепочки операций
+    std::cout << "\n Тест цепочки операций " << std::endl;
+    complex chain1(1.0, 1.0);
+    complex chain2(2.0, 2.0);
+    complex chain3(3.0, 3.0);
+    complex chain_result = (chain1 + chain2) * chain3;
+    if (std::abs(chain_result.getRe() - 0.0) < 1e-9 && std::abs(chain_result.getIm() - 18.0) < 1e-9) {
+        std::cout << "((1+i)+(2+2i))*(3+3i) = 0+18i - Верно" << std::endl;
+        passed++;
+    } else {
+        std::cout << "Цепочка операций - Неверно" << std::endl;
         failed++;
     }
 
